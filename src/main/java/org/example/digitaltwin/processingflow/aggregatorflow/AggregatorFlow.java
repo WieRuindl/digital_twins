@@ -16,6 +16,7 @@ import org.springframework.integration.store.MessageGroup;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 
+/** Configures the aggregation flow to correlate outgoing commands with incoming sensor data. */
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public class AggregatorFlow {
   @Value("${aggregator.timeout:20000}")
   private long timeoutInMS;
 
+  /**
+   * Defines the flow that aggregates messages by UID. Groups are released when a pair (Command +
+   * Sensor) is complete or upon timeout. Orphan sensor messages (status=null) are filtered out.
+   */
   @Bean
   public IntegrationFlow aggregatorFlowProcessor(
       MessageChannel aggregatorInputChannel, MessageChannel aggregatorOutputChannel) {
@@ -41,6 +46,7 @@ public class AggregatorFlow {
         .get();
   }
 
+  /** Extracts the unique correlation ID from the message payload. */
   private Object correlateByUid(Message<?> message) {
     Object payload = message.getPayload();
     if (payload instanceof ConditionerCommand c) return c.uid();
@@ -50,6 +56,10 @@ public class AggregatorFlow {
     return null;
   }
 
+  /**
+   * Determines the final status (MATCH, MISMATCH, LOST) based on the grouped messages. Returns a
+   * status with null value for orphan sensor readings to allow filtering.
+   */
   @VisibleForTesting
   protected StatusMessage calculateStatus(MessageGroup group) {
     var messages = group.getMessages().stream().map(Message::getPayload).toList();

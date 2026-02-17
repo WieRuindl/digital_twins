@@ -12,6 +12,10 @@ import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannel
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.MessageChannel;
 
+/**
+ * Configures the MQTT inbound adapter and processing pipeline. Subscribes to temperature topics,
+ * deserializes JSON payloads, and forwards valid readings.
+ */
 @Configuration
 public class MqttInputFlow {
 
@@ -25,6 +29,11 @@ public class MqttInputFlow {
   @Value("${mqtt.topic:sensor/temperature}")
   private String mqttTopic;
 
+  /**
+   * Defines the processing flow for raw MQTT messages. Logic: Transforms JSON payload to {@link
+   * SensorMessage}. Routes based on ID: Null ID: Logged as a STOP signal and discarded. Valid ID:
+   * Forwarded to the aggregator channel.
+   */
   @Bean
   public IntegrationFlow mqttInputFlowProcessor(
       MessageChannel mqttInputChannel, MessageChannel aggregatorInputChannel) {
@@ -49,6 +58,7 @@ public class MqttInputFlow {
             .channel(aggregatorInputChannel);
   }
 
+  /** Configures the Paho MQTT adapter to listen on the specified topic. */
   @Bean
   public MqttPahoMessageDrivenChannelAdapter mqttAdapter(
       MessageChannel mqttInputChannel, MessageChannel mqttErrorChannel) {

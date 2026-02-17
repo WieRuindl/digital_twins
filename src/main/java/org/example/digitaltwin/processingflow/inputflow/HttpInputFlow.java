@@ -10,6 +10,10 @@ import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.http.dsl.Http;
 import org.springframework.messaging.MessageChannel;
 
+/**
+ * Configures the HTTP inbound flow for receiving air conditioner commands. Exposed as a POST
+ * endpoint to accept {@link ConditionerCommand} payloads.
+ */
 @Configuration
 public class HttpInputFlow {
 
@@ -20,6 +24,11 @@ public class HttpInputFlow {
   @Value("${http.input.url:/api/v1/services/air-conditioner}")
   private String httpInputUrl;
 
+  /**
+   * Defines the flow that handles incoming HTTP POST requests. Logic: If {@link
+   * ConditionerCommand#last()=true}: Logs the stop signal and discards the message. If {@link
+   * ConditionerCommand#last()=false}: Logs and forwards the command to the aggregator channel.
+   */
   @Bean
   public IntegrationFlow httpInputFlowProcessor(MessageChannel aggregatorInputChannel) {
     return IntegrationFlow.from(
