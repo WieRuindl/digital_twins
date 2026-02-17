@@ -12,23 +12,23 @@ import org.springframework.messaging.MessageChannel;
 @Configuration
 public class HttpOutputFlowConfiguration {
 
-    @Bean
-    public IntegrationFlow outputFlow(MessageChannel outputChannel,
-                                      Advice expressionAdvice) {
-        return IntegrationFlow.from(outputChannel)
-                .handle(Http.outboundGateway("http://localhost:8080/api/v1/status")
-                        .httpMethod(HttpMethod.POST)
-                        .expectedResponseType(String.class),
-                        e -> e.advice(expressionAdvice))
-                .channel("nullChannel")
-                .get();
-    }
+  @Bean
+  public IntegrationFlow outputFlow(MessageChannel outputChannel, Advice expressionAdvice) {
+    return IntegrationFlow.from(outputChannel)
+        .handle(
+            Http.outboundGateway("http://localhost:8080/api/v1/status")
+                .httpMethod(HttpMethod.POST)
+                .expectedResponseType(String.class),
+            e -> e.advice(expressionAdvice))
+        .channel("nullChannel")
+        .get();
+  }
 
-    @Bean
-    public Advice expressionAdvice() {
-        var advice = new ExpressionEvaluatingRequestHandlerAdvice();
-        advice.setOnFailureExpressionString("null");
-        advice.setTrapException(true);
-        return advice;
-    }
+  @Bean
+  public Advice expressionAdvice() {
+    var advice = new ExpressionEvaluatingRequestHandlerAdvice();
+    advice.setOnFailureExpressionString("null");
+    advice.setTrapException(true);
+    return advice;
+  }
 }
