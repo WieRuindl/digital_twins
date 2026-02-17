@@ -21,7 +21,7 @@ public class MqttInputFlowConfiguration {
 
   @Bean
   public IntegrationFlow mqttInputFlow(
-      @NonNull final MessageChannel inputChannel,
+      @NonNull final MessageChannel aggregatorInputChannel,
       @NonNull final MqttPahoMessageDrivenChannelAdapter mqttAdapter) {
     return IntegrationFlow.from(mqttAdapter)
         .transform(Transformers.fromJson(SensorMessage.class))
@@ -37,7 +37,7 @@ public class MqttInputFlowConfiguration {
                                     LoggingHandler.Level.INFO,
                                     "MQTT_FLOW",
                                     m -> "Sending to aggregator: " + m.getPayload())
-                                .channel(inputChannel)))
+                                .channel(aggregatorInputChannel)))
         .get();
   }
 

@@ -18,8 +18,9 @@ public class AggregatorFlowConfiguration {
 
   @Bean
   public IntegrationFlow aggregatorFlow(
-      @NonNull final MessageChannel inputChannel, @NonNull final MessageChannel outputChannel) {
-    return IntegrationFlow.from(inputChannel)
+      @NonNull final MessageChannel aggregatorInputChannel,
+      @NonNull final MessageChannel aggregatorOutputChannel) {
+    return IntegrationFlow.from(aggregatorInputChannel)
         .aggregate(
             a ->
                 a.correlationStrategy(
@@ -34,7 +35,7 @@ public class AggregatorFlowConfiguration {
                     .sendPartialResultOnExpiry(true)
                     .outputProcessor(this::calculateStatus))
         .<StatusMessage>filter(s -> s.status() != null, e -> e.discardChannel("nullChannel"))
-        .channel(outputChannel)
+        .channel(aggregatorOutputChannel)
         .get();
   }
 

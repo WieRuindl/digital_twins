@@ -13,12 +13,12 @@ import org.springframework.messaging.MessageChannel;
 public class IntegrationConfig {
 
   @Bean
-  public MessageChannel inputChannel() {
+  public MessageChannel aggregatorInputChannel() {
     return new ExecutorChannel(Executors.newCachedThreadPool());
   }
 
   @Bean
-  public MessageChannel outputChannel() {
+  public MessageChannel aggregatorOutputChannel() {
     return new DirectChannel();
   }
 
