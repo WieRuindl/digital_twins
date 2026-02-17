@@ -10,7 +10,7 @@ import org.springframework.messaging.MessageChannel;
 
 @Configuration
 @EnableIntegration
-public class IntegrationConfig {
+public class IntegrationChannelsConfig {
 
   @Bean
   public MessageChannel aggregatorInputChannel() {
@@ -19,6 +19,11 @@ public class IntegrationConfig {
 
   @Bean
   public MessageChannel aggregatorOutputChannel() {
+    return new DirectChannel();
+  }
+
+  @Bean
+  public MessageChannel mqttInputChannel() {
     return new DirectChannel();
   }
 

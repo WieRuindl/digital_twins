@@ -13,7 +13,8 @@ import org.springframework.messaging.MessageChannel;
 public class HttpOutputFlowConfiguration {
 
   @Bean
-  public IntegrationFlow outputFlow(MessageChannel aggregatorOutputChannel, Advice expressionAdvice) {
+  public IntegrationFlow outputFlow(
+      MessageChannel aggregatorOutputChannel, Advice expressionAdvice) {
     return IntegrationFlow.from(aggregatorOutputChannel)
         .handle(
             Http.outboundGateway("http://localhost:8080/api/v1/status")
