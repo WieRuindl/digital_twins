@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.outputflow;
+package org.example.digitaltwin.processingflow.outputflow;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;

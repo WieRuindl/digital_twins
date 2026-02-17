@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration;
+package org.example.digitaltwin.processingflow.aggregatorflow;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.inputflow;
+package org.example.digitaltwin.processingflow.inputflow;
 
 import java.util.UUID;
 import org.example.digitaltwin.dto.request.SensorMessage;

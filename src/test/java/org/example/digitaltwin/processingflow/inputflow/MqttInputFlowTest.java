@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.inputflow;
+package org.example.digitaltwin.processingflow.inputflow;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.inputflow;
+package org.example.digitaltwin.processingflow.inputflow;
 
 import org.example.digitaltwin.dto.request.ConditionerCommand;
 import org.springframework.beans.factory.annotation.Value;

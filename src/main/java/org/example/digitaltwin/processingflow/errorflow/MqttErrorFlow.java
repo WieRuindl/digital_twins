@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.errorflow;
+package org.example.digitaltwin.processingflow.errorflow;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

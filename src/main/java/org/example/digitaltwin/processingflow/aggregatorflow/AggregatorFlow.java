@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration;
+package org.example.digitaltwin.processingflow.aggregatorflow;
 
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import org.springframework.messaging.MessageChannel;
 public class AggregatorFlow {
 
   @Value("${aggregator.timeout:20000}")
-  private long timeoutInSeconds;
+  private long timeoutInMS;
 
   @Bean
   public IntegrationFlow aggregatorFlowProcessor(
@@ -33,7 +33,7 @@ public class AggregatorFlow {
             a ->
                 a.correlationStrategy(this::correlateByUid)
                     .releaseStrategy(g -> g.size() == 2)
-                    .groupTimeout(timeoutInSeconds * 1000)
+                    .groupTimeout(timeoutInMS)
                     .sendPartialResultOnExpiry(true)
                     .outputProcessor(this::calculateStatus))
         .<StatusMessage>filter(s -> s.status() != null, e -> e.discardChannel("nullChannel"))

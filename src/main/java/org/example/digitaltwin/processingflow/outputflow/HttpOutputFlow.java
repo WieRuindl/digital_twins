@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration.outputflow;
+package org.example.digitaltwin.processingflow.outputflow;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

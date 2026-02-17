@@ -1,4 +1,4 @@
-package org.example.digitaltwin.configuration;
+package org.example.digitaltwin.processingflow;
 
 import java.util.concurrent.Executors;
 import org.springframework.context.annotation.Bean;
