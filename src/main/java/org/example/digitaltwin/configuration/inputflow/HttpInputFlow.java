@@ -1,6 +1,7 @@
 package org.example.digitaltwin.configuration.inputflow;
 
 import org.example.digitaltwin.dto.request.ConditionerCommand;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,13 +17,13 @@ public class HttpInputFlow {
   private static final String STOP_SIGNAL = ">>> RECEIVED STOP SIGNAL (Last: true)";
   private static final String SENDING_TO_AGGREGATOR = "Sending to aggregator: ";
 
-  // TODO: extract to properties file
-  private static final String HTTP_API_PATH = "/api/v1/services/air-conditioner";
+  @Value("${http.input.url:/api/v1/services/air-conditioner}")
+  private String httpInputUrl;
 
   @Bean
   public IntegrationFlow httpInputFlowProcessor(MessageChannel aggregatorInputChannel) {
     return IntegrationFlow.from(
-            Http.inboundChannelAdapter(HTTP_API_PATH)
+            Http.inboundChannelAdapter(httpInputUrl)
                 .requestMapping(m -> m.methods(HttpMethod.POST))
                 .requestPayloadType(ConditionerCommand.class))
         .<ConditionerCommand, Boolean>route(
