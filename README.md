@@ -18,9 +18,9 @@ It acts as an aggregator that correlates incoming control commands (HTTP) with t
 
 The service uses an event-driven architecture based on Spring Integration flows:
 
-```mermaid
-[Tester Service] -- HTTP POST  --> HttpInputFlow
-[Tester Service] -- MQTT Topic --> MqttInputFlow
+```
+Tester Service -- HTTP POST  --> HttpInputFlow
+Tester Service -- MQTT Topic --> MqttInputFlow
 
 HttpInputFlow --> |Async| AggregatorFlow
 MqttInputFlow --> |Async| AggregatorFlow
