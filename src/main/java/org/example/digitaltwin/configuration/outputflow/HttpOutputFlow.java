@@ -10,14 +10,16 @@ import org.springframework.integration.http.dsl.Http;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class HttpOutputFlowConfiguration {
+public class HttpOutputFlow {
+
+  private static final String HTTP_API_PATH = "http://localhost:8080/api/v1/status";
 
   @Bean
-  public IntegrationFlow outputFlow(
+  public IntegrationFlow httpOutputFlowProcessor(
       MessageChannel aggregatorOutputChannel, Advice expressionAdvice) {
     return IntegrationFlow.from(aggregatorOutputChannel)
         .handle(
-            Http.outboundGateway("http://localhost:8080/api/v1/status")
+            Http.outboundGateway(HTTP_API_PATH)
                 .httpMethod(HttpMethod.POST)
                 .expectedResponseType(String.class),
             e -> e.advice(expressionAdvice))

@@ -9,12 +9,12 @@ import org.springframework.messaging.MessageChannel;
 
 @Slf4j
 @Configuration
-public class MqttErrorFlowConfiguration {
+public class MqttErrorFlow {
 
   public static final String INVALID_JSON_MESSAGE = ">>> MQTT Payload error (invalid JSON ignored)";
 
   @Bean
-  public IntegrationFlow mqttErrorFlow(@NonNull final MessageChannel mqttErrorChannel) {
+  public IntegrationFlow mqttErrorFlowProcessor(@NonNull final MessageChannel mqttErrorChannel) {
     return IntegrationFlow.from(mqttErrorChannel).handle(m -> log.info(INVALID_JSON_MESSAGE)).get();
   }
 }
