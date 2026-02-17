@@ -14,21 +14,6 @@ It acts as an aggregator that correlates incoming control commands (HTTP) with t
 - Lombok
 - JUnit 5 / Mockito (Testing)
 
-## Architecture
-
-The service uses an event-driven architecture based on Spring Integration flows:
-
-```
-Tester Service -- HTTP POST  --> HttpInputFlow
-Tester Service -- MQTT Topic --> MqttInputFlow
-
-HttpInputFlow --> |Async| AggregatorFlow
-MqttInputFlow --> |Async| AggregatorFlow
-
-AggregatorFlow -- Correlation Logic --> HttpOutputFlow
-HttpOutputFlow -- HTTP POST Status --> Tester Service
-```
-
 ## Prerequisites
 
 Before running the application, ensure you have:
@@ -36,6 +21,19 @@ Before running the application, ensure you have:
 - Java 17 (tested with corretto-17)
 - MQTT Broker (e.g., Mosquitto)
 - Task Simulator to create input data and verify results
+
+## Architecture
+
+The service uses an event-driven architecture based on Spring Integration flows:
+
+```
+                         _______________________________________________________
+                         |                    MY SOLUTION                       |
+               /-- REST -|- HttpInputFlow --\                                   |
+Tester Service           |                    AggregatorFlow -- HttpOutputFlow -|- REST -- Tester Service 
+               \-- MQTT -|- MqttInputFlow --/                                   |
+                         |______________________________________________________|
+```
 
 ## Configuration
 
